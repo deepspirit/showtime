@@ -1,5 +1,5 @@
-// 使用相对路径，通过 Vite 代理访问后端 API
-const API_BASE = '/api';
+// 开发环境直接使用后端 HTTP API，避免 HTTPS 页面请求 HTTP API 的跨域问题
+const API_BASE = 'http://localhost:3001/api';
 
 export interface StitchResponse {
   success: boolean;
@@ -27,6 +27,7 @@ export const imageApi = {
       const response = await fetch(`${API_BASE}/stitch`, {
         method: 'POST',
         body: formData,
+        mode: 'cors',
       });
 
       if (!response.ok) {
@@ -48,6 +49,6 @@ export const imageApi = {
   },
 
   async cleanup(): Promise<void> {
-    await fetch(`${API_BASE}/cleanup`, { method: 'POST' });
+    await fetch(`${API_BASE}/cleanup`, { method: 'POST', mode: 'cors' });
   }
 };
