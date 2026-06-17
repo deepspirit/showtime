@@ -1,4 +1,6 @@
-const API_BASE = '/api';
+const API_BASE = process.env.NODE_ENV === 'production' 
+  ? '/api' 
+  : 'http://localhost:3001/api';
 
 export interface StitchResponse {
   success: boolean;
@@ -25,6 +27,7 @@ export const imageApi = {
     const response = await fetch(`${API_BASE}/stitch`, {
       method: 'POST',
       body: formData,
+      mode: 'cors',
     });
 
     if (!response.ok) {
@@ -40,6 +43,6 @@ export const imageApi = {
   },
 
   async cleanup(): Promise<void> {
-    await fetch(`${API_BASE}/cleanup`, { method: 'POST' });
+    await fetch(`${API_BASE}/cleanup`, { method: 'POST', mode: 'cors' });
   }
 };
